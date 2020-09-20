@@ -138,8 +138,8 @@
 		// reference.
 		
 		var debugTimestamp = new Date();
-		var sheetName = tableau.extensions.settings.get("worksheet");
-		console.log('Debug sheetName ', debugTimestamp.toGMTString(), ' ',sheetName); 
+		var sheetName = "Sheet 1"//tableau.extensions.settings.get("worksheet");
+		//console.log('Debug sheetName ', debugTimestamp.toGMTString(), ' ',sheetName); 
 
 		dict_Settings = tableau.extensions.settings.getAll();
 		console.log('dict_Settings: ', dict_Settings);
@@ -162,21 +162,21 @@
 			return sheet.name===sheetName;
 		});
 					
-		var strMeasureName = tableau.extensions.settings.get("MeasureName");
+		var strMeasureName = "CNT(Use Case)";//tableau.extensions.settings.get("MeasureName");
 
 		var regExp = /\(([^)]+)\)/;
 		var regExpMatches = regExp.exec(strMeasureName);
 		//matches[1] contains the value between the parentheses
 		var strDisplayName = regExpMatches[1];
 			
-		var Ordered_Dimensions = [];
-		for(var key in dict_Settings) {
+		var Ordered_Dimensions = ["Business Unit","Sub-Business Unit","Use Case Category","Use Case"];
+		/*for(var key in dict_Settings) {
 			var value = dict_Settings[key];
 
 			if (key.startsWith('FieldName_')){
 				Ordered_Dimensions.push(value);
 			}
-		}
+		}*/
 		console.log('----- Ordered_Dimensions -----', Ordered_Dimensions);	// Debug output
 			
 		worksheet.getSummaryDataAsync().then(function (sumdata) {
@@ -325,14 +325,14 @@
 
 						var DollarSign = "";
 						// Add dollar sign to tooltip from radio button in Config window
-						if( dict_Settings['isDollarSign'] == "true" ) {
-							DollarSign = "$";
-						}						
+						//if( dict_Settings['isDollarSign'] == "true" ) {
+						//	DollarSign = "";
+						//}						
 						
 						tooltip.transition()
 							.duration(200);
 						tooltip.style("opacity", 0.70)
-							.html(d.data.name + '<br/>' + DollarSign + formatNumber(d.value))
+							.html(d.data.name + '<br/>' + formatNumber(d.value))
 							.style("left", (d3.mouse(this)[0] - xAdjust) + "px")
 							.style("top", (d3.mouse(this)[1] - yAdjust) + "px");
 					}
@@ -388,9 +388,9 @@
 
 							var DollarSign = "";
 							// Add dollar sign to tooltip from radio button in Config window
-							if( dict_Settings['isDollarSign'] == "true" ) {
-								DollarSign = "$";
-							}
+							//if( dict_Settings['isDollarSign'] == "true" ) {
+							//	DollarSign = "";
+							//}
 
 							if( is_Small_Element(d) ){ // Hide label if data element is too small.
 								return ' ';
@@ -398,7 +398,7 @@
 							else {
 								return '' +
 								    '<p class="title"> ' + d.data.name + '</p>' +
-								    '<p>' + DollarSign + formatNumber(d.value) + '</p>';
+								    '<p>' + formatNumber(d.value) + '</p>';
 							}
 						})
 						.attr("class", "textdiv"); //textdiv class allows us to style the text easily with CSS
